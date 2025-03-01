@@ -5,7 +5,7 @@ import Table from "./components/Table";
 function App() {
   return (
     <div>
-            <h1 style={{ textAlign: "center" }}>Katharin's Fundraising Site</h1>
+            <h1 style={{ textAlign: "center" }}>Katharine's Fundraising Site</h1>
             <Table />
         </div>
   );
