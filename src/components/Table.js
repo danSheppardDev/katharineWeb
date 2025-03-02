@@ -10,7 +10,7 @@ const Table = () => {
     useEffect(() => {
         const fetchTotalRaised = async () => {
             const results = await Promise.all(apiEndpoints.map(async (url, index) => {
-                if (!url) return 'NA';
+                if (!url) return url;
                 try {
                     const response = await fetch(url, {
                         headers: {
@@ -22,10 +22,10 @@ const Table = () => {
                         throw new Error(`HTTP error! Status: ${response.status}`);
                     }
                     const data = await response.json();
-                    return data.totalRaisedOnline || 'NA';
+                    return '£ '.concat(data.totalRaisedOnline) || 'NA';
                 } catch (error) {
                     console.error(`Error fetching API ${index + 1}:`, error);
-                    return 'NA';
+                    return url;
                 }
             }));
             setTotalRaised(results);
@@ -39,12 +39,13 @@ const Table = () => {
 
 
     const apiEndpoints = [
-        'https://example.com/api2',
+        'Done',
         'https://api.justgiving.com/b0e2e36e/v1/fundraising/pagebyid/53145105',
         'https://api.justgiving.com/b0e2e36e/v1/fundraising/pagebyid/53145107',
-        'https://example.com/api5',
-        '',
-        'https://api.justgiving.com/b0e2e36e/v1/fundraising/pagebyid/53145141'
+        'NA',
+        'NA',
+        'https://api.justgiving.com/b0e2e36e/v1/fundraising/pagebyid/53145141',
+        'NA'
     ];
 
 
@@ -52,10 +53,10 @@ const Table = () => {
         "https://dkms.enthuse.com/pf/katharine-horgan",
         "https://www.justgiving.com/page/katharine-horgan-1733759668565?newPage=true",
         "https://www.justgiving.com/page/katharine-horgan-1733759798650?newPage=true",
-        "https://example.com/link5",
-        "https://example.com/link7",
+        "",
+        "",
         "https://www.justgiving.com/page/katharine-horgan-1733760696898?newPage=true",
-        "https://example.com/link8"
+        ""
     ];
     const words = ["Hapmton Court Half (London)", "London Landmarks Half Marathon (London)", "Hackney Half Marathon (London)", 
         "The Big Half (London)", "Run-Fest Richmond Half (London)", "Berlin Marathon (Berlin)","Royal Parks Half Marathon (London)"];
