@@ -9,7 +9,7 @@ export const Fundraisers: FundraiserData[] = [
         totalRaised: 150,
         url: "https://dkms.enthuse.com/pf/katharine-horgan",
         charityName: "DKMS",
-        charityUrl: "",
+        charityUrl: "https://www.dkms.org.uk",
     },
     {
         name: "The Big Half (London)",
