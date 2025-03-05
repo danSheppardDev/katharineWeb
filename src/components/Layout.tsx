@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { fetchFundraiserDetails } from "../helpers/fetchJustGivingData";
 import { Table } from "./Table";
 import { ProgressCards } from "./ProgressCards";
-import { fundraisers } from "../data/Fundraisers";
+import { Fundraisers } from "../data/Fundraisers";
 
 export const Layout = () => {
-    const [getFundraisers, setFundraisers] = useState<FundraiserDetails[]>([]);
+    const [getFundraisers, setFundraisers] = useState<FundraiserData[]>([]);
     const [getTotal, setTotal] = useState<number>(0);
     const [getTotalRaised, setTotalRaised] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(true);
@@ -21,71 +21,58 @@ export const Layout = () => {
             const cachedData = localStorage.getItem("fundraisers");
             const cachedTimestamp = localStorage.getItem("fundraisersTimestamp");
 
-            // If the data exists in the cache, check if it's older than one hour.
-            if (cachedData && cachedTimestamp) {
-                const currentTime = Date.now();
-                const cacheAge = currentTime - Number(cachedTimestamp);
+            const currentTime = Date.now();
+            const cacheAge = cachedTimestamp ? currentTime - Number(cachedTimestamp) : Infinity;
 
-                // If the cache is too old, refresh the data
-                if (cacheAge < 60 * 60 * 1000) {
-                    const data = JSON.parse(cachedData);
-                    setFundraisers(sortFundraisersByDate(data));
-                    setLoading(false);
-                    return;
-                }
+            if (cachedData && cacheAge < 60 * 60 * 1000) {
+                const data = JSON.parse(cachedData);
+                setFundraisers(sortFundraisersByDate(data));
+                setTotalAndRaised(data);
+                setLoading(false);
+                return;
             }
 
-            const data = await fetchFundraiserDetails();
-            const combinedData = data.concat(fundraisers);
-            setFundraisers(sortFundraisersByDate(combinedData));
+            // Fetch new data from the API
+            const apiData = await fetchFundraiserDetails();
+            const combinedData = sortFundraisersByDate([...apiData, ...Fundraisers]);
+            setFundraisers(combinedData);
+            setTotalAndRaised(combinedData);  // Calculate total and total raised after fetching
             localStorage.setItem("fundraisers", JSON.stringify(combinedData));
             localStorage.setItem("fundraisersTimestamp", String(Date.now()));
             setLoading(false);
         };
 
-        fetchData().then(() => {return});
+        fetchData();
     }, []);
 
     /**
-     * Get the total amount needed and total amount raised for all campaigns.
-     * Update if there is a change to the fundraiser array
+     * Calculate total amount needed and total amount raised for all campaigns.
+     * Runs whenever the fundraiser array changes.
      */
-    useEffect(() => {
+    const setTotalAndRaised = (fundraisers: FundraiserData[]) => {
         let newTotal = 0;
         let newTotalRaised = 0;
-        for (const f of getFundraisers) {
-            if (f.totalRaised === "N/A" || f.totalRaised === "") continue;
-            const amount = parseFloat(f.totalRaised.replace(/£/g, "").trim());
-            if (!isNaN(amount)) {
-                newTotal += amount;
-            }
-            if (f.fundraisingTarget === "N/A" || f.fundraisingTarget === "") continue;
-            const raisedAmount = parseFloat(f.fundraisingTarget.replace(/£/g, "").trim());
-            if (!isNaN(raisedAmount)) {
-                newTotalRaised += raisedAmount;
+        for (const f of fundraisers) {
+            if (f.fundraisingTarget && f.totalRaised) {
+                newTotal += Number(f.fundraisingTarget);
+                newTotalRaised += Number(f.totalRaised);
             }
         }
         setTotal(newTotal);
         setTotalRaised(newTotalRaised);
-    }, [getFundraisers]);
+    };
 
     /**
-     * Sort fundraisers by date ascending
-     * @param data The fundraiser data array fetched from the API and data file
+     * Sort fundraisers by date ascending (immutable)
+     * @param data The fundraiser data array
+     * @returns A new sorted array
      */
-    const sortFundraisersByDate = (data: FundraiserDetails[]) => {
-        return data.sort((a, b) => {
-            // Convert the eventDate strings (dd/mm/yyyy) into a Date object by splitting
-            const [dayA, monthA, yearA] = a.eventDate.split("/").map(Number);
-            const [dayB, monthB, yearB] = b.eventDate.split("/").map(Number);
-
-            // Create Date objects for comparison
-            const dateA = new Date(yearA, monthA - 1, dayA);
-            const dateB = new Date(yearB, monthB - 1, dayB);
-
-            return dateA.getTime() - dateB.getTime();
-        });
+    const sortFundraisersByDate = (data: FundraiserData[]) => {
+        return [...data].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
     };
+
+    const MemoizedProgressCards = React.memo(ProgressCards);
+    const MemoizedTable = React.memo(Table);
 
     return (
         <div>
@@ -96,11 +83,11 @@ export const Layout = () => {
             ) : (
                 <>
                     <div className={"section"} id={"results-table"}>
-                        <Table fundraisers={getFundraisers} total={getTotal} totalRaised={getTotalRaised} />
+                        <MemoizedTable fundraisers={getFundraisers} total={getTotal} totalRaised={getTotalRaised} />
                     </div>
                     <div className={"section"} id={"results-cards"}>
                         <div className={"fixed-grid has-1-cols-mobile has-2-cols-desktop "}>
-                            <ProgressCards fundraisers={getFundraisers} />
+                            <MemoizedProgressCards fundraisers={getFundraisers} />
                         </div>
                     </div>
                 </>

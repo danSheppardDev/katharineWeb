@@ -1,8 +1,8 @@
 import React from "react";
-import {formatCurrency, formatLink} from "../helpers/Formatting";
+import {formatCurrency, formatLink, formatDate, getTotalRaisedOrStatus} from "../helpers/Formatting";
 
 interface TableProps {
-    fundraisers: FundraiserDetails[];
+    fundraisers: FundraiserData[];
     total: number;
     totalRaised: number;
 }
@@ -20,25 +20,25 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
             <table className="table mx-auto is-bordered">
                 <thead>
                 <tr>
-                    <th>Dates</th>
-                    <th>Race</th>
-                    <th>Charity</th>
-                    <th>Link</th>
-                    <th>Goal</th>
-                    <th>Total Raised</th>
+                    <th scope={"col"}>Dates</th>
+                    <th scope={"col"}>Race</th>
+                    <th scope={"col"}>Charity</th>
+                    <th scope={"col"}>Link</th>
+                    <th scope={"col"}>Goal</th>
+                    <th scope={"col"}>Total Raised</th>
                 </tr>
                 </thead>
                 <tbody>
                 {fundraisers.map((f, index) => {
-                    const { eventDate, eventName, charityName, charityUrl, url, fundraisingTarget, totalRaised, totalRaisedPercentageOfFundraisingTarget } = f;
+                    const { date, name, charityName, charityUrl, url = "", fundraisingTarget, totalRaised, progressPercentage = 0 } = f;
                     return (
                         <tr key={index}>
-                            <td className="has-text-centered">{eventDate}</td>
-                            <td className="has-text-centered">{eventName}</td>
+                            <td className="has-text-centered">{formatDate(date)}</td>
+                            <td className="has-text-centered">{name}</td>
                             <td className="has-text-centered">{formatLink(charityUrl, charityName)}</td>
                             <td className="has-text-centered">{formatLink(url, "Click here")}</td>
                             <td className="has-text-centered">{formatCurrency(fundraisingTarget)}</td>
-                            <td className="has-text-centered">{totalRaisedPercentageOfFundraisingTarget == 100 ? "Target hit" : formatCurrency(totalRaised)}</td>
+                            <td className="has-text-centered">{getTotalRaisedOrStatus(progressPercentage, totalRaised)}</td>
                         </tr>
                     );
                 })}
@@ -46,8 +46,8 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                     <td className="has-text-centered" colSpan={4}>
                         <strong>Total</strong>
                     </td>
-                    <td className={"has-text-centered"}>{`£${totalRaised}`}</td>
-                    <td className={"has-text-centered"}>{`£${total}`}</td>
+                    <td className={"has-text-centered"}>{formatCurrency(total)}</td>
+                    <td className={"has-text-centered"}>{formatCurrency(totalRaised)}</td>
                 </tr>
                 </tbody>
             </table>

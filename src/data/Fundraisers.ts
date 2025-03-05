@@ -1,45 +1,41 @@
 /**
  * A list of fundraisers not found that can't be fetched from the JustGiving API
  */
-export const fundraisers: FundraiserDetails[] = [
+export const Fundraisers: FundraiserData[] = [
     {
-        eventName: "Hampton Court Palace Half Marathon 2025",
-        eventDate: new Date("2025-03-23T00:00:00Z").toLocaleDateString("en-gb"),
-        fundraisingTarget: "150",
-        totalRaised: "150",
-        totalRaisedPercentageOfFundraisingTarget: 100,
+        name: "Hampton Court Palace Half Marathon 2025",
+        date: new Date("2025-03-23"),
+        fundraisingTarget: 150,
+        totalRaised: 150,
         url: "https://dkms.enthuse.com/pf/katharine-horgan",
         charityName: "DKMS",
         charityUrl: "",
     },
     {
-        eventName: "The Big Half (London)",
-        eventDate: new Date("2025-09-07T00:00:00Z").toLocaleDateString("en-gb"),
-        charityName: "N/A",
-        fundraisingTarget: "N/A",
-        totalRaised: "N/A",
-        totalRaisedPercentageOfFundraisingTarget: "N/A",
+        name: "The Big Half (London)",
+        date: new Date("2025-09-07"),
+        fundraisingTarget: 0,
+        totalRaised: 0,
         url: "",
+        charityName: "",
+        charityUrl: ""
+    },
+    {
+        name: "Run-Fest Richmond Half (London)",
+        date: new Date("2025-09-14"),
+        fundraisingTarget: 0,
+        totalRaised: 0,
+        url: "",
+        charityName: "",
         charityUrl: "",
     },
     {
-        eventName: "Run-Fest Richmond Half (London)",
-        eventDate: new Date("2025-09-14T00:00:00Z").toLocaleDateString("en-gb"),
-        charityName: "N/A",
-        fundraisingTarget: "N/A",
-        totalRaised: "N/A",
-        totalRaisedPercentageOfFundraisingTarget: "N/A",
+        name: "Royal Parks Half Marathon (London)",
+        date: new Date("2025-10-12"),
+        fundraisingTarget: 0,
+        totalRaised: 0,
         url: "",
-        charityUrl: "",
-    },
-    {
-        eventName: "Royal Parks Half Marathon (London)",
-        eventDate: new Date("2025-10-12T00:00:00Z").toLocaleDateString("en-gb"),
-        charityName: "N/A",
-        fundraisingTarget: "N/A",
-        totalRaised: "N/A",
-        totalRaisedPercentageOfFundraisingTarget: "N/A",
-        url: "",
+        charityName: "",
         charityUrl: "",
     }
 ];

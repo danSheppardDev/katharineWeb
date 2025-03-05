@@ -1,8 +1,8 @@
-import React from "react";
-import {formatCurrency} from "../helpers/Formatting";
+import React, {useMemo} from "react";
+import { formatCurrency } from "../helpers/Formatting";
 
 interface ProgressCardProps {
-    fundraisers: FundraiserDetails[];
+    fundraisers: FundraiserData[];
 }
 
 /**
@@ -10,7 +10,7 @@ interface ProgressCardProps {
  * @param percentage The completion percentage
  * @returns A bulma CSS class
  */
-const getProgressClass = (percentage: number) => {
+const getProgressClass = (percentage: number): string => {
     if (percentage >= 75) return "is-success";
     if (percentage >= 50) return "is-primary";
     if (percentage >= 25) return "is-info";
@@ -23,17 +23,31 @@ const getProgressClass = (percentage: number) => {
  * @constructor
  */
 export const ProgressCards = ({ fundraisers }: ProgressCardProps) => {
+
+    const fundraisingProgress = useMemo(() => {
+        return fundraisers.map(f => {
+            const { totalRaised, fundraisingTarget } = f;
+            if (!totalRaised || !fundraisingTarget) return 0;
+            return Math.floor((totalRaised / fundraisingTarget) * 100);
+        });
+    }, [fundraisers]);
+
     return (
-        <div className={"grid"}>
+        <div className="grid">
             {fundraisers.map((f, index) => {
-                const { eventName, totalRaised, totalRaisedPercentageOfFundraisingTarget, fundraisingTarget, url } = f;
-                const progressPercentage = Number(totalRaisedPercentageOfFundraisingTarget);
+                const {
+                    name,
+                    totalRaised,
+                    fundraisingTarget,
+                    url,
+                } = f;
+                const progress = fundraisingProgress[index];
 
                 return (
-                    <div className={"cell"} key={index}>
-                        <div key={index} className="card my-6">
+                    <div className="cell" key={index}>
+                        <div className="card my-6">
                             <header className="card-header">
-                                <p className="card-header-title">{eventName}</p>
+                                <p className="card-header-title">{name}</p>
                             </header>
                             <div className="card-content">
                                 <div className="content">
@@ -42,14 +56,14 @@ export const ProgressCards = ({ fundraisers }: ProgressCardProps) => {
                                             <span>Raised: {formatCurrency(totalRaised)}</span>
                                         </div>
                                         <div className="column is-one-third has-text-centered">
-                                            <span>{progressPercentage ? progressPercentage : 0}% Raised</span>
+                                            <span>{progress}% Raised</span>
                                         </div>
                                         <div className="column is-one-third has-text-right">
                                             <span>Goal: {formatCurrency(fundraisingTarget)}</span>
                                         </div>
                                     </div>
                                     <progress
-                                        className={`progress ${getProgressClass(progressPercentage)}`}
+                                        className={`progress ${getProgressClass(progress)}`}
                                         value={totalRaised}
                                         max={fundraisingTarget}
                                     />
