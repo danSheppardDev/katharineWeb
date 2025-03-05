@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { fetchFundraiserDetails } from "../helpers/fetchJustGivingData";
+import { fetchJustGivingFundraiserDetails } from "../helpers/fetchJustGivingData";
 import { Table } from "./Table";
 import { ProgressCards } from "./ProgressCards";
-import { Fundraisers } from "../data/Fundraisers";
+import {fetchGoogleSheetsFundraiserData} from "../helpers/fetchGoogleSheetData";
 
 export const Layout = () => {
     const [getFundraisers, setFundraisers] = useState<FundraiserData[]>([]);
@@ -33,10 +33,11 @@ export const Layout = () => {
             }
 
             // Fetch new data from the API
-            const apiData = await fetchFundraiserDetails();
-            const combinedData = sortFundraisersByDate([...apiData, ...Fundraisers]);
+            const justGivingData = await fetchJustGivingFundraiserDetails();
+            const googleSheetsData = await fetchGoogleSheetsFundraiserData();
+            const combinedData = sortFundraisersByDate([...justGivingData, ...googleSheetsData]);
             setFundraisers(combinedData);
-            setTotalAndRaised(combinedData);  // Calculate total and total raised after fetching
+            setTotalAndRaised(combinedData);
             localStorage.setItem("fundraisers", JSON.stringify(combinedData));
             localStorage.setItem("fundraisersTimestamp", String(Date.now()));
             setLoading(false);
