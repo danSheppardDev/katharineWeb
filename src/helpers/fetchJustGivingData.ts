@@ -40,7 +40,7 @@ export async function fetchFundraiserDetails(): Promise<FundraiserData[]> {
         const data = await fetchData<any>(url);
 
         return {
-            name: data.title,
+            name: data.eventName,
             date: fixDate(data.eventDate),
             url: `https://justgiving.com/${data.pageShortName}`,
             charityName: data.charity.name,
