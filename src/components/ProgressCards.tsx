@@ -1,4 +1,4 @@
-import React, {useMemo} from "react";
+import React from "react";
 import { formatCurrency } from "../helpers/Formatting";
 
 interface ProgressCardProps {
@@ -23,25 +23,20 @@ const getProgressClass = (percentage: number): string => {
  * @constructor
  */
 export const ProgressCards = ({ fundraisers }: ProgressCardProps) => {
-
-    const fundraisingProgress = useMemo(() => {
-        return fundraisers.map(f => {
-            const { totalRaised, fundraisingTarget } = f;
-            if (!totalRaised || !fundraisingTarget) return 0;
-            return Math.floor((totalRaised / fundraisingTarget) * 100);
-        });
-    }, [fundraisers]);
+    if (!fundraisers || fundraisers.length === 0) {
+        return <div>No fundraisers available</div>;
+    }
 
     return (
         <div className="grid">
             {fundraisers.filter(fr => fr.url !== "").map((f, index) => {
-                const {
-                    name,
-                    totalRaised,
-                    fundraisingTarget,
-                    url,
-                } = f;
-                const progress = fundraisingProgress[index];
+                const { name, totalRaised, fundraisingTarget, url } = f;
+                let progress = 0;
+
+                // Ensure totalRaised and fundraisingTarget are valid numbers
+                if (fundraisingTarget > 0 && !isNaN(totalRaised) && !isNaN(fundraisingTarget)) {
+                    progress = Math.floor((totalRaised / fundraisingTarget) * 100);
+                }
 
                 return (
                     <div className="cell" key={index}>
@@ -79,3 +74,4 @@ export const ProgressCards = ({ fundraisers }: ProgressCardProps) => {
         </div>
     );
 };
+
