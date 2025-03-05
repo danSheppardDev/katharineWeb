@@ -34,7 +34,7 @@ export const ProgressCards = ({ fundraisers }: ProgressCardProps) => {
 
     return (
         <div className="grid">
-            {fundraisers.map((f, index) => {
+            {fundraisers.filter(fr => fr.charityUrl != "").map((f, index) => {
                 const {
                     name,
                     totalRaised,
@@ -69,11 +69,9 @@ export const ProgressCards = ({ fundraisers }: ProgressCardProps) => {
                                     />
                                 </div>
                             </div>
-                            {url && (
-                                <footer className="card-footer">
-                                    <a href={url} className="card-footer-item">Donate</a>
-                                </footer>
-                            )}
+                            <footer className="card-footer">
+                                <a href={url} className="card-footer-item">Donate</a>
+                            </footer>
                         </div>
                     </div>
                 );
