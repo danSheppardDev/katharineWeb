@@ -9,14 +9,16 @@ import React, { ReactElement } from "react";
 export const formatCurrency = (value: number): string => value ? `£${value.toString()}` : "N/A";
 
 /**
- * Checks to see if a value contains a URL and formats the output accordingly.
- * Returns "N/A" if no valid URL was found,
+ * Formats a link or text based on the presence of a URL and the `blank` flag.
  * @param url - the target URL
  * @param text - the text to be displayed in the link
- * @returns the resulting string
+ * @param blank - whether empty values should be blank or not
+ * @returns the resulting string or JSX element
  */
-export const formatLink = (url: string, text: string): ReactElement =>
-    url ? <a href={url} target="_blank" rel="noopener noreferrer">{text}</a> : <>{text}</>;
+export const formatLink = (url: string, text: string, blank: boolean): ReactElement =>
+    url
+        ? <a href={url} target="_blank" rel="noopener noreferrer">{blank && !url ? "" : text}</a>
+        : blank ? <></> : <>{text}</>;
 
 // Helper to format date in 'en-gb' locale
 export const formatDate = (date: Date) => new Date(date).toLocaleDateString("en-gb");

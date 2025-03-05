@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import {formatCurrency, formatLink, formatDate, getTotalRaisedOrStatus} from "../helpers/Formatting";
 
 interface TableProps {
@@ -15,6 +15,14 @@ interface TableProps {
  * @constructor
  */
 export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
+    const fundraisingProgress = useMemo(() => {
+        return fundraisers.map(f => {
+            const { totalRaised, fundraisingTarget } = f;
+            if (!totalRaised || !fundraisingTarget) return 0;
+            return Math.floor((totalRaised / fundraisingTarget) * 100);
+        });
+    }, [fundraisers]);
+
     return (
         <div className="table-container">
             <table className="table mx-auto is-bordered">
@@ -31,14 +39,15 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                 <tbody>
                 {fundraisers.map((f, index) => {
                     const { date, name, charityName, charityUrl, url = "", fundraisingTarget, totalRaised, progressPercentage = 0 } = f;
+                    const progress = fundraisingProgress[index];
                     return (
                         <tr key={index}>
                             <td className="has-text-centered">{formatDate(date)}</td>
                             <td className="has-text-centered">{name}</td>
-                            <td className="has-text-centered">{formatLink(charityUrl, charityName)}</td>
-                            <td className="has-text-centered">{formatLink(url, "Click here")}</td>
+                            <td className="has-text-centered">{formatLink(charityUrl, charityName, false)}</td>
+                            <td className="has-text-centered">{formatLink(url, "Click here", true)}</td>
                             <td className="has-text-centered">{formatCurrency(fundraisingTarget)}</td>
-                            <td className="has-text-centered">{getTotalRaisedOrStatus(progressPercentage, totalRaised)}</td>
+                            <td className="has-text-centered">{getTotalRaisedOrStatus(progress, totalRaised)}</td>
                         </tr>
                     );
                 })}
