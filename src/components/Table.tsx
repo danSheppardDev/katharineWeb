@@ -38,13 +38,13 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                 </thead>
                 <tbody>
                 {fundraisers.map((f, index) => {
-                    const { date, name, charityName, charityUrl, url = "", fundraisingTarget, totalRaised, progressPercentage = 0 } = f;
+                    const { date, name, charityName, url = "", fundraisingTarget, totalRaised } = f;
                     const progress = fundraisingProgress[index];
                     return (
                         <tr key={index}>
                             <td className="has-text-centered">{formatDate(date)}</td>
                             <td className="has-text-centered">{name}</td>
-                            <td className="has-text-centered">{formatLink(charityUrl, charityName, false)}</td>
+                            <td className="has-text-centered">{charityName}</td>
                             <td className="has-text-centered">{formatLink(url, "Click here", true)}</td>
                             <td className="has-text-centered">{formatCurrency(fundraisingTarget)}</td>
                             <td className="has-text-centered">{getTotalRaisedOrStatus(progress, totalRaised)}</td>
