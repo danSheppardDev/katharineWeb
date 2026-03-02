@@ -15,13 +15,22 @@ interface TableProps {
  * @constructor
  */
 export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
+    // only show events on or after 2026-03-02
+    const cutoff = useMemo(() => new Date("2026-03-02"), []);
+    const visibleFundraisers = useMemo(() => {
+        return fundraisers.filter(f => {
+            const d = new Date(f.date);
+            return !isNaN(d.getTime()) && d >= cutoff;
+        });
+    }, [fundraisers, cutoff]);
+
     const fundraisingProgress = useMemo(() => {
-        return fundraisers.map(f => {
+        return visibleFundraisers.map(f => {
             const { totalRaised, fundraisingTarget } = f;
             if (!totalRaised || !fundraisingTarget) return 0;
             return Math.floor((totalRaised / fundraisingTarget) * 100);
         });
-    }, [fundraisers]);
+    }, [visibleFundraisers]);
 
     return (
         <div className="table-container">
@@ -37,7 +46,7 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                 </tr>
                 </thead>
                 <tbody>
-                {fundraisers.map((f, index) => {
+                {visibleFundraisers.map((f, index) => {
                     const { date, name, charityName, url = "", fundraisingTarget, totalRaised } = f;
                     const progress = fundraisingProgress[index];
                     return (
