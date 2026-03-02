@@ -88,14 +88,22 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                         margin-top: 1rem;
                         border-radius: 4px;
                         border-bottom: none;
-                        background-color: #f5f5f5 !important;
+                        background-color: #ffffff !important;
                         -webkit-tap-highlight-color: transparent;
+                    }
+                    .mobile-table-wrap .totals-row,
+                    .mobile-table-wrap .totals-row * {
+                        -webkit-tap-highlight-color: transparent !important;
                     }
                     .mobile-table-wrap .totals-row td,
                     .mobile-table-wrap .totals-row:hover td,
                     .mobile-table-wrap .totals-row:active td,
-                    .mobile-table-wrap .totals-row:focus td {
-                        background-color: #f5f5f5 !important;
+                    .mobile-table-wrap .totals-row:focus td,
+                    .mobile-table-wrap .totals-row td:hover,
+                    .mobile-table-wrap .totals-row td:active,
+                    .mobile-table-wrap .totals-row td:focus,
+                    .mobile-table-wrap .totals-row td:focus-visible {
+                        background-color: #ffffff !important;
                         padding: 0.5rem 0;
                         font-weight: 600;
                     }
@@ -117,7 +125,10 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                     .mobile-table-wrap .totals-row:hover,
                     .mobile-table-wrap .totals-row:active,
                     .mobile-table-wrap .totals-row:focus {
-                        background-color: #f5f5f5 !important;
+                        background-color: #ffffff !important;
+                    }
+                    .mobile-table-wrap .totals-row * {
+                        background-color: #ffffff !important;
                     }
                 }
 
