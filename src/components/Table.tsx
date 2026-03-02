@@ -38,7 +38,38 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
 
     return (
         <div className="table-container">
-            <table className="table mx-auto is-bordered">
+            <style>
+                {`@media (max-width: 768px) {
+                    .table-container table {
+                        display: block;
+                        width: 100%;
+                    }
+                    .table-container thead {
+                        display: none;
+                    }
+                    .table-container tr {
+                        display: block;
+                        margin-bottom: 1rem;
+                        border-bottom: 1px solid #ddd;
+                    }
+                    .table-container td {
+                        display: block;
+                        text-align: right;
+                        position: relative;
+                        padding-left: 50%;
+                    }
+                    .table-container td:before {
+                        content: attr(data-label);
+                        position: absolute;
+                        left: 0;
+                        width: 50%;
+                        padding-left: 1rem;
+                        font-weight: bold;
+                        text-align: left;
+                    }
+                }`}
+            </style>
+            <table className="table is-fullwidth is-narrow is-bordered is-striped is-hoverable mx-auto">
                 <thead>
                 <tr>
                     <th scope={"col"}>Dates</th>
@@ -55,12 +86,12 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                     const progress = fundraisingProgress[index];
                     return (
                         <tr key={index}>
-                            <td className="has-text-centered">{formatDate(date)}</td>
-                            <td className="has-text-centered">{name}</td>
-                            <td className="has-text-centered">{charityName}</td>
-                            <td className="has-text-centered">{formatLink(url, "Click here", true)}</td>
-                            <td className="has-text-centered">{formatCurrency(fundraisingTarget)}</td>
-                            <td className="has-text-centered">{getTotalRaisedOrStatus(progress, totalRaised)}</td>
+                            <td data-label="Dates" className="has-text-centered">{formatDate(date)}</td>
+                            <td data-label="Race" className="has-text-centered">{name}</td>
+                            <td data-label="Charity" className="has-text-centered">{charityName}</td>
+                            <td data-label="Link" className="has-text-centered">{formatLink(url, "Click here", true)}</td>
+                            <td data-label="Goal" className="has-text-centered">{formatCurrency(fundraisingTarget)}</td>
+                            <td data-label="Total Raised" className="has-text-centered">{getTotalRaisedOrStatus(progress, totalRaised)}</td>
                         </tr>
                     );
                 })}
