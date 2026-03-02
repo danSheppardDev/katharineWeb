@@ -44,18 +44,21 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                     .table-container {
                         overflow-x: visible !important;
                         padding: 0 0.5rem;
+                        text-align: center;
                     }
                     .table-container table {
                         display: block;
-                        width: 100%;
-                        margin: 0 !important;
+                        width: auto;
+                        max-width: 100%;
+                        margin: 0 auto !important;
                     }
                     .table-container thead {
                         display: none;
                     }
                     .table-container tr {
                         display: block;
-                        margin-bottom: 0.75rem;
+                        max-width: 90%;
+                        margin: 0 auto 0.75rem;
                         border-bottom: 1px solid #ddd;
                         padding: 0.75rem 1rem;
                     }
@@ -118,8 +121,19 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                     <td className="has-text-centered" colSpan={4}>
                         <strong>Total</strong>
                     </td>
-                    <td className={"has-text-centered"}>{formatCurrency(total)}</td>
-                    <td className={"has-text-centered"}>{formatCurrency(totalRaised)}</td>
+                    {(() => {
+                        // decide order so smaller value appears first on mobile
+                        const firstVal = total <= totalRaised ? total : totalRaised;
+                        const secondVal = total <= totalRaised ? totalRaised : total;
+                        const firstLabel = total <= totalRaised ? "Goal" : "Raised";
+                        const secondLabel = total <= totalRaised ? "Raised" : "Goal";
+                        return (
+                            <>
+                                <td data-label={firstLabel} className={"has-text-centered"}>{formatCurrency(firstVal)}</td>
+                                <td data-label={secondLabel} className={"has-text-centered"}>{formatCurrency(secondVal)}</td>
+                            </>
+                        );
+                    })()}
                 </tr>
                 </tbody>
             </table>
