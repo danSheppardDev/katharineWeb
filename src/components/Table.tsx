@@ -43,13 +43,13 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                     /* remove horizontal scrolling and treat each row as a block */
                     .table-container {
                         overflow-x: visible !important;
-                        padding: 0 0.5rem;
+                        padding: 0;
                         text-align: center;
                     }
                     .table-container table {
                         display: block;
                         width: 100%;
-                        max-width: 420px;
+                        max-width: 360px;
                         margin: 0 auto !important;
                     }
                     .table-container thead {
@@ -61,6 +61,7 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                         margin: 0 auto 0.75rem;
                         border-bottom: 1px solid #ddd;
                         padding: 0.75rem 1rem;
+                        box-sizing: border-box;
                     }
                     .table-container tr:last-child {
                         background-color: #f5f5f5;
@@ -93,13 +94,16 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                     }
 
                     .table-container .table.is-hoverable tbody tr:hover {
-                        background-color: transparent !important;
+                        background-color: inherit !important;
                     }
 
                     .table-container tr:last-child,
                     .table-container tr:last-child:hover,
                     .table-container tr:last-child:active,
-                    .table-container tr:last-child td {
+                    .table-container tr:last-child td,
+                    .table-container tr:last-child td:hover,
+                    .table-container tr:last-child td:active,
+                    .table-container tr:last-child td:focus {
                         background-color: #f5f5f5 !important;
                     }
 
