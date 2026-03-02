@@ -37,25 +37,31 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
     }, [visibleFundraisers]);
 
     return (
-        <div className="table-container">
+        <div className="table-container mobile-table-wrap">
             <style>
                 {`@media (max-width: 768px) {
                     /* remove horizontal scrolling and treat each row as a block */
-                    .table-container {
+                    .mobile-table-wrap {
+                        display: flex;
+                        justify-content: center;
                         overflow-x: visible !important;
                         padding: 0;
                         text-align: center;
                     }
-                    .table-container table {
+                    .mobile-table-wrap table {
                         display: block;
                         width: 100%;
                         max-width: 360px;
                         margin: 0 auto !important;
                     }
-                    .table-container thead {
+                    .mobile-table-wrap thead {
                         display: none;
                     }
-                    .table-container tr {
+                    .mobile-table-wrap tbody {
+                        display: block;
+                        width: 100%;
+                    }
+                    .mobile-table-wrap tr {
                         display: block;
                         width: 100%;
                         margin: 0 auto 0.75rem;
@@ -63,20 +69,14 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                         padding: 0.75rem 1rem;
                         box-sizing: border-box;
                     }
-                    .table-container tr:last-child {
-                        background-color: #f5f5f5;
-                        border-radius: 4px;
-                        margin-top: 1rem;
-                    }
-                    .table-container td {
+                    .mobile-table-wrap td {
                         display: block;
                         text-align: center;
                         padding: 0.25rem 0;
                         white-space: normal;
                         word-break: break-word;
                     }
-                    .table-container td[data-label]:before {
-                        /* label appears above value */
+                    .mobile-table-wrap td[data-label]:before {
                         content: attr(data-label) ": ";
                         display: block;
                         font-weight: bold;
@@ -84,7 +84,23 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                         text-align: center;
                     }
 
-                    .table-container tr:last-child td:first-child::after {
+                    .mobile-table-wrap .totals-row {
+                        margin-top: 1rem;
+                        border-radius: 4px;
+                        border-bottom: none;
+                        background-color: #f5f5f5 !important;
+                        -webkit-tap-highlight-color: transparent;
+                    }
+                    .mobile-table-wrap .totals-row td,
+                    .mobile-table-wrap .totals-row:hover td,
+                    .mobile-table-wrap .totals-row:active td,
+                    .mobile-table-wrap .totals-row:focus td {
+                        background-color: #f5f5f5 !important;
+                        padding: 0.5rem 0;
+                        font-weight: 600;
+                    }
+
+                    .mobile-table-wrap .totals-row td:first-child::after {
                         content: "Summary of overall goal and total raised";
                         display: block;
                         font-size: 0.85rem;
@@ -93,25 +109,24 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                         opacity: 0.8;
                     }
 
-                    .table-container .table.is-hoverable tbody tr:hover {
+                    .mobile-table-wrap .table.is-hoverable tbody tr:hover {
                         background-color: inherit !important;
                     }
 
-                    .table-container tr:last-child,
-                    .table-container tr:last-child:hover,
-                    .table-container tr:last-child:active,
-                    .table-container tr:last-child td,
-                    .table-container tr:last-child td:hover,
-                    .table-container tr:last-child td:active,
-                    .table-container tr:last-child td:focus {
+                    .mobile-table-wrap .totals-row,
+                    .mobile-table-wrap .totals-row:hover,
+                    .mobile-table-wrap .totals-row:active,
+                    .mobile-table-wrap .totals-row:focus {
                         background-color: #f5f5f5 !important;
                     }
+                }
 
-                    .table-container tr:last-child td {
-                        padding: 0.5rem 0;
+                @media (min-width: 769px) {
+                    .mobile-table-wrap .totals-row td {
                         font-weight: 600;
                     }
-                }`}
+                }
+                `}
             </style>
             <table className="table is-fullwidth is-narrow is-bordered is-striped is-hoverable mx-auto">
                 <thead>
@@ -139,7 +154,7 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                         </tr>
                     );
                 })}
-                <tr>
+                <tr className="totals-row">
                     <td className="has-text-centered" colSpan={4}>
                         <strong>Total</strong>
                     </td>

@@ -39,7 +39,7 @@ export const ProgressCards = ({ fundraisers }: ProgressCardProps) => {
                     }
                     .grid .cell {
                         width: 100%;
-                        max-width: 400px;
+                        max-width: 360px;
                     }
                     .grid .cell .card {
                         margin: 0 !important;
@@ -48,7 +48,7 @@ export const ProgressCards = ({ fundraisers }: ProgressCardProps) => {
                         flex-direction: column;
                     }
                     .grid .column {
-                        text-align: left !important;
+                        text-align: center !important;
                         padding-left: 0 !important;
                     }
                 }`}
