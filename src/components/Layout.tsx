@@ -78,15 +78,15 @@ export const Layout = () => {
   const MemoizedTable = React.memo(Table);
 
   return (
-    <div>
+    <div className="mt-0">
       {loading ? (
         <div className="is-flex is-justify-content-center is-align-items-center" style={{ height: "100vh" }}>
           <div className="loader is-loading"></div>
         </div>
       ) : (
         <>
-          <a href="https://blogs.lse.ac.uk/vcb/2025/03/17/guest-blog-a-year-of-running-badly-for-a-good-cause/" rel="noreferrer" target="_blank"><h2 className="subtitle has-text-link has-text-centered">Read Katharine’s blog to learn more about why she picked these charities</h2></a>
-          <div className={"section pb-2"} id={"results-table"}>
+          <a className="is-block mb-3" href="https://blogs.lse.ac.uk/vcb/2025/03/17/guest-blog-a-year-of-running-badly-for-a-good-cause/" rel="noreferrer" target="_blank"><h2 className="subtitle has-text-link has-text-centered mb-0">Read Katharine’s blog to learn more about why she picked these charities</h2></a>
+          <div className={"section py-2"} id={"results-table"}>
             <MemoizedTable fundraisers={getFundraisers} total={getTotal} totalRaised={getTotalRaised} />
           </div>
           <div className={"section pt-2"} id={"results-cards"}>
