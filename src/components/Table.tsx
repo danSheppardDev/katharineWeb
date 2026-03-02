@@ -88,7 +88,7 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                         margin-top: 1rem;
                         border-radius: 4px;
                         border-bottom: none;
-                        background-color: #ffffff !important;
+                        background-color: inherit !important;
                         -webkit-tap-highlight-color: transparent;
                     }
                     .mobile-table-wrap .totals-row,
@@ -103,7 +103,7 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                     .mobile-table-wrap .totals-row td:active,
                     .mobile-table-wrap .totals-row td:focus,
                     .mobile-table-wrap .totals-row td:focus-visible {
-                        background-color: #ffffff !important;
+                        background-color: inherit !important;
                         padding: 0.5rem 0;
                         font-weight: 600;
                     }
@@ -125,10 +125,10 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                     .mobile-table-wrap .totals-row:hover,
                     .mobile-table-wrap .totals-row:active,
                     .mobile-table-wrap .totals-row:focus {
-                        background-color: #ffffff !important;
+                        background-color: inherit !important;
                     }
                     .mobile-table-wrap .totals-row * {
-                        background-color: #ffffff !important;
+                        background-color: inherit !important;
                     }
                 }
 
