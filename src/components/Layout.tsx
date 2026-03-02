@@ -25,9 +25,10 @@ export const Layout = () => {
       const cacheAge = cachedTimestamp ? currentTime - Number(cachedTimestamp) : Infinity;
 
       if (cachedData && cacheAge < 60 * 60 * 1000) {
-        const data = JSON.parse(cachedData);
-        setFundraisers(sortFundraisersByDate(data));
-        setTotalAndRaised(data);
+        const data = JSON.parse(cachedData) as FundraiserData[];
+        const filtered = data.filter(d => !/hampton court/i.test(String(d.name)));
+        setFundraisers(sortFundraisersByDate(filtered));
+        setTotalAndRaised(filtered);
         setLoading(false);
         return;
       }
@@ -36,9 +37,10 @@ export const Layout = () => {
       const justGivingData = await fetchJustGivingFundraiserDetails();
       const googleSheetsData = await fetchGoogleSheetsFundraiserData();
       const combinedData = sortFundraisersByDate([...justGivingData, ...googleSheetsData]);
-      setFundraisers(combinedData);
-      setTotalAndRaised(combinedData);
-      localStorage.setItem("fundraisers", JSON.stringify(combinedData));
+      const filteredCombinedData = combinedData.filter(d => !/hampton court/i.test(String(d.name)));
+      setFundraisers(filteredCombinedData);
+      setTotalAndRaised(filteredCombinedData);
+      localStorage.setItem("fundraisers", JSON.stringify(filteredCombinedData));
       localStorage.setItem("fundraisersTimestamp", String(Date.now()));
       setLoading(false);
     };
