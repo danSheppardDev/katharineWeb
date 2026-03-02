@@ -15,8 +15,12 @@ interface TableProps {
  * @constructor
  */
 export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
-    // only show events on or after 2026-03-02
-    const cutoff = useMemo(() => new Date("2026-03-02"), []);
+    // only show events on or after today (start of day)
+    const cutoff = useMemo(() => {
+        const d = new Date();
+        d.setHours(0, 0, 0, 0);
+        return d;
+    }, []);
     const visibleFundraisers = useMemo(() => {
         return fundraisers.filter(f => {
             const d = new Date(f.date);
