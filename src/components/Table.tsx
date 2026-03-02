@@ -43,24 +43,31 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                     /* remove horizontal scrolling and treat each row as a block */
                     .table-container {
                         overflow-x: visible !important;
+                        padding: 0 0.5rem;
                     }
                     .table-container table {
                         display: block;
                         width: 100%;
+                        margin: 0 !important;
                     }
                     .table-container thead {
                         display: none;
                     }
                     .table-container tr {
                         display: block;
-                        margin-bottom: 1rem;
+                        margin-bottom: 0.75rem;
                         border-bottom: 1px solid #ddd;
-                        padding: 0.5rem 0;
+                        padding: 0.75rem 1rem;
+                    }
+                    .table-container tr:last-child {
+                        background-color: #f5f5f5;
+                        border-radius: 4px;
+                        margin-top: 1rem;
                     }
                     .table-container td {
                         display: block;
                         text-align: left;
-                        padding: 0.25rem 1rem;
+                        padding: 0.25rem 0;
                         white-space: normal;
                         word-break: break-word;
                     }
@@ -70,6 +77,14 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                         display: block;
                         font-weight: bold;
                         margin-bottom: 0.25rem;
+                    }
+                    /* hide label for totals row */
+                    .table-container tr:last-child td:before {
+                        display: none;
+                    }
+                    .table-container tr:last-child td {
+                        padding: 0.5rem 0;
+                        font-weight: 600;
                     }
                 }`}
             </style>
