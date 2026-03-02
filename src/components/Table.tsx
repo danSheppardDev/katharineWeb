@@ -40,6 +40,10 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
         <div className="table-container">
             <style>
                 {`@media (max-width: 768px) {
+                    /* remove horizontal scrolling and treat each row as a block */
+                    .table-container {
+                        overflow-x: visible !important;
+                    }
                     .table-container table {
                         display: block;
                         width: 100%;
@@ -51,21 +55,21 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                         display: block;
                         margin-bottom: 1rem;
                         border-bottom: 1px solid #ddd;
+                        padding: 0.5rem 0;
                     }
                     .table-container td {
                         display: block;
-                        text-align: right;
-                        position: relative;
-                        padding-left: 50%;
+                        text-align: left;
+                        padding: 0.25rem 1rem;
+                        white-space: normal;
+                        word-break: break-word;
                     }
                     .table-container td:before {
-                        content: attr(data-label);
-                        position: absolute;
-                        left: 0;
-                        width: 50%;
-                        padding-left: 1rem;
+                        /* label appears above value */
+                        content: attr(data-label) ": ";
+                        display: block;
                         font-weight: bold;
-                        text-align: left;
+                        margin-bottom: 0.25rem;
                     }
                 }`}
             </style>
