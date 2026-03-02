@@ -48,8 +48,8 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                     }
                     .table-container table {
                         display: block;
-                        width: auto;
-                        max-width: 100%;
+                        width: 100%;
+                        max-width: 420px;
                         margin: 0 auto !important;
                     }
                     .table-container thead {
@@ -57,7 +57,7 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                     }
                     .table-container tr {
                         display: block;
-                        max-width: 90%;
+                        width: 100%;
                         margin: 0 auto 0.75rem;
                         border-bottom: 1px solid #ddd;
                         padding: 0.75rem 1rem;
@@ -69,22 +69,40 @@ export const Table = ({ fundraisers, total, totalRaised }: TableProps) => {
                     }
                     .table-container td {
                         display: block;
-                        text-align: left;
+                        text-align: center;
                         padding: 0.25rem 0;
                         white-space: normal;
                         word-break: break-word;
                     }
-                    .table-container td:before {
+                    .table-container td[data-label]:before {
                         /* label appears above value */
                         content: attr(data-label) ": ";
                         display: block;
                         font-weight: bold;
                         margin-bottom: 0.25rem;
+                        text-align: center;
                     }
-                    /* hide label for totals row */
-                    .table-container tr:last-child td:before {
-                        display: none;
+
+                    .table-container tr:last-child td:first-child::after {
+                        content: "Summary of overall goal and total raised";
+                        display: block;
+                        font-size: 0.85rem;
+                        font-weight: 400;
+                        margin-top: 0.35rem;
+                        opacity: 0.8;
                     }
+
+                    .table-container .table.is-hoverable tbody tr:hover {
+                        background-color: transparent !important;
+                    }
+
+                    .table-container tr:last-child,
+                    .table-container tr:last-child:hover,
+                    .table-container tr:last-child:active,
+                    .table-container tr:last-child td {
+                        background-color: #f5f5f5 !important;
+                    }
+
                     .table-container tr:last-child td {
                         padding: 0.5rem 0;
                         font-weight: 600;
