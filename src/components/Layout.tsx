@@ -86,10 +86,10 @@ export const Layout = () => {
       ) : (
         <>
           <a href="https://blogs.lse.ac.uk/vcb/2025/03/17/guest-blog-a-year-of-running-badly-for-a-good-cause/" rel="noreferrer" target="_blank"><h2 className="subtitle has-text-link has-text-centered">Read Katharine’s blog to learn more about why she picked these charities</h2></a>
-          <div className={"section"} id={"results-table"}>
+          <div className={"section pb-2"} id={"results-table"}>
             <MemoizedTable fundraisers={getFundraisers} total={getTotal} totalRaised={getTotalRaised} />
           </div>
-          <div className={"section"} id={"results-cards"}>
+          <div className={"section pt-2"} id={"results-cards"}>
             <div className={"fixed-grid has-1-cols-mobile has-2-cols-desktop "}>
               <MemoizedProgressCards fundraisers={getFundraisers} />
             </div>

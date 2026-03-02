@@ -30,12 +30,15 @@ export const ProgressCards = ({ fundraisers }: ProgressCardProps) => {
     return (
         <>
             <style>
-                {`@media (max-width: 768px) {
+                {`.grid {
+                    gap: 1rem;
+                }
+
+                @media (max-width: 768px) {
                     .grid {
                         display: flex !important;
                         flex-direction: column;
                         align-items: center;
-                        gap: 1rem;
                     }
                     .grid .cell {
                         width: 100%;
@@ -65,7 +68,7 @@ export const ProgressCards = ({ fundraisers }: ProgressCardProps) => {
 
                 return (
                     <div className="cell" key={index}>
-                        <div className="card my-6">
+                        <div className="card m-0">
                             <header className="card-header">
                                 <p className="card-header-title">{name}</p>
                             </header>
